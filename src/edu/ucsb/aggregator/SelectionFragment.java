@@ -1,20 +1,5 @@
-/**
- * Copyright 2012 Facebook
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-package com.facebook.scrumptious;
+package edu.ucsb.aggregator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,11 +27,10 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
+
 import com.facebook.widget.ProfilePictureView;
 
-/**
- * Fragment that represents the main selection screen for Scrumptious.
- */
+
 public class SelectionFragment extends Fragment {
 
     private static final String TAG = "SelectionFragment";
@@ -57,13 +41,11 @@ public class SelectionFragment extends Fragment {
     private static final int REAUTH_ACTIVITY_CODE = 100;
     private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
 
-    private ProgressDialog progressDialog;
     private ProfilePictureView profilePictureView;
     private TextView userNameView;
     private TextView feedText;
-    private JSONArray feed;
     private Button refreshButton;
-    private boolean pendingAnnounce;
+
 
     private UiLifecycleHelper uiHelper;
     private Session.StatusCallback callback = new Session.StatusCallback() {
@@ -133,8 +115,6 @@ public class SelectionFragment extends Fragment {
         super.onDestroy();
         uiHelper.onDestroy();
     }
-
-    
 
     private void onSessionStateChange(final Session session, SessionState state, Exception exception) {
         if (session != null && session.isOpened()) {
@@ -241,7 +221,7 @@ public class SelectionFragment extends Fragment {
                     listener = new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            pendingAnnounce = true;
+                            //pendingAnnounce = true;
                             //requestPublishPermissions(Session.getActiveSession());
                         }
                     };
