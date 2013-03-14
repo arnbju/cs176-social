@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -13,6 +15,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +36,7 @@ import com.facebook.widget.ProfilePictureView;
 
 public class SelectionFragment extends Fragment {
 
+	
     private static final String TAG = "SelectionFragment";
     private static final String POST_ACTION_PATH = "me/fb_sample_scrumps:eat";
     private static final String PENDING_ANNOUNCE_KEY = "pendingAnnounce";
@@ -45,7 +49,8 @@ public class SelectionFragment extends Fragment {
     private TextView userNameView;
     private TextView feedText;
     private Button refreshButton;
-
+    private ProfilePictureView profilePicture;
+    private Button fbutton;
 
     private UiLifecycleHelper uiHelper;
     private Session.StatusCallback callback = new Session.StatusCallback() {
@@ -72,14 +77,25 @@ public class SelectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.selection, container, false);
+        
+  //      profilePicture = (ProfilePictureView) view.findViewById(R.id.friend_profile_pic);
 
-        profilePictureView = (ProfilePictureView) view.findViewById(R.id.selection_profile_pic);
-        profilePictureView.setCropped(true);
-        userNameView = (TextView) view.findViewById(R.id.selection_user_name);
-        feedText = (TextView) view.findViewById(R.id.feed);
-        refreshButton = (Button) view.findViewById(R.id.refresh_button);
+//        profilePictureView = (ProfilePictureView) view.findViewById(R.id.selection_profile_pic);
+//        profilePictureView.setCropped(true);
+//        userNameView = (TextView) view.findViewById(R.id.selection_user_name);
+//        feedText = (TextView) view.findViewById(R.id.feed);
+//        refreshButton = (Button) view.findViewById(R.id.refresh_button);
         		
-        refreshButton.setOnClickListener(new View.OnClickListener() {
+//        refreshButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//            	refreshFeed();
+//                
+//            }
+//        });
+        
+        fbutton = (Button) view.findViewById(R.id.fbutton);
+        fbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             	refreshFeed();
@@ -152,32 +168,8 @@ public class SelectionFragment extends Fragment {
     	getFeedRequest(session);
     }
     
-    private void getFeedRequest(final Session session) {
-        //Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
-          Request request = Request.newGraphPathRequest(session, "/me/home", new Request.Callback() {
-			
-			
-    		@Override
-            public void onCompleted(Response response) {
-    			GraphObject test = response.getGraphObject();
-                
-    			if(test == null){
-    				feedText.setText("Query failed");
-    			}else{
-    				feedText.setText("Query sucsess!\n" + test.getProperty("data"));
-    				
-    				
-    			}
-    			
-                if (response.getError() != null) {
-                    handleError(response.getError());
-                }
-            }
-        });
-        request.executeAsync();
-
-    }
-
+    
+  
     private void handleError(FacebookRequestError error) {
         DialogInterface.OnClickListener listener = null;
         String dialogBody = null;
@@ -256,4 +248,65 @@ public class SelectionFragment extends Fragment {
                 .setMessage(dialogBody)
                 .show();
     }
+    
+    //henter newsfeed fra facebook
+    private void getFeedRequest(final Session session) {
+        //Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
+        Log.i(TAG, "Kom hit");  
+    	Request request = Request.newGraphPathRequest(session, "/me/home", new Request.Callback() {
+        	  
+			
+    		@Override
+            public void onCompleted(Response response) {
+    			GraphObject fpost = response.getGraphObject();
+                
+    			if(fpost == null){
+    				feedText.setText("Query failed");
+    			}
+    			else{
+
+    			    // Example: typed access (name)
+    			    // - no special permissions required
+    				
+    				feedText.setText("");
+    			 
+    			    JSONArray posts = (JSONArray) fpost.getProperty("data");
+    			    
+    			    try {
+						displayRequest(posts.getJSONObject(0));
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+    			}
+    			   
+                if (response.getError() != null) {
+                    handleError(response.getError());
+                }
+            }
+        });
+        request.executeAsync();
+
+    }
+    
+    //method for displaying a facebook message
+    public void displayRequest(JSONObject post){
+    	//feedText.setText("");
+        
+        profilePicture.setCropped(true);
+    	
+	    try {
+	    	profilePicture.setProfileId(post.getJSONObject("from").getString("id"));
+			feedText.append(post.getJSONObject("from").getString("name") );
+			//feedText.append("\n\n");
+			feedText.append(post.getString("message"));
+			//feedText.append("\n\n");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    }
+
 }
+

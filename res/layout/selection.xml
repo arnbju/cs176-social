@@ -14,60 +14,192 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:facebook="http://schemas.android.com/apk/res-auto"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        >
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical">
+        android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
+            android:layout_height="fill_parent"
             android:orientation="horizontal" >
-            <com.facebook.widget.ProfilePictureView
-                android:id="@+id/selection_profile_pic"
+
+            <Button
+                android:id="@+id/fbutton"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
-                facebook:preset_size="small" />
-            <TextView
-                android:id="@+id/selection_user_name"
-                android:layout_width="wrap_content"
+                android:layout_gravity="left"
+                android:text="Facebook" />
+
+            <Button
+                android:id="@+id/tbutton"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="center"
-                android:textSize="18sp" />
+                android:layout_gravity="right"
+                android:text="Twitter" />
         </LinearLayout>
-	 
-       
-        <Button
-            android:id="@+id/refresh_button"
+
+        <com.facebook.widget.ProfilePictureView
+            android:id="@+id/selection_profile_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
-            android:text="Refresh"
-            
-            android:gravity="center" />
- 	
+            android:gravity="center_horizontal"
+            facebook:preset_size="small" />
+
         <TextView
+            android:id="@+id/selection_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:text="Name"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal" >
+
+            <com.facebook.widget.ProfilePictureView
+                android:id="@+id/friend_profile_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:gravity="center_horizontal"
+                facebook:preset_size="small" >
+            </com.facebook.widget.ProfilePictureView>
+
+            <TextView
                 android:id="@+id/feed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
                 android:text="tomt"
                 android:textSize="18sp" />
-        
+        </LinearLayout>
+<!--          <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" >
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+                </LinearLayout>
+            </TableRow>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal" >
+
+                <com.facebook.widget.ProfilePictureView
+                    android:id="@+id/selection_profile_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    facebook:preset_size="small" />
+
+                <TextView
+                    android:id="@+id/selection_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.77"
+                android:orientation="vertical" >
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <com.facebook.widget.ProfilePictureView
+                    android:id="@+id/friend_profile_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="center_horizontal"
+                    facebook:preset_size="small" >
+                </com.facebook.widget.ProfilePictureView>
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/friend_profile_pic" >
+
+                    <TableRow
+                        android:id="@+id/tableRow2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <TextView
+                            android:id="@+id/feed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="tomt"
+                            android:textSize="18sp" />
+                    </TableRow>
+                </TableLayout>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/refresh_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="Refresh"
+                android:textStyle="bold" />
+          
+        <FrameLayout
+            android:layout_width="233dp"
+            android:layout_height="wrap_content" >
+        </FrameLayout>
+            
+        </LinearLayout> -->
     </LinearLayout>
+
 </ScrollView>
