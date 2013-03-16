@@ -25,7 +25,8 @@ public class MainActivity extends FragmentActivity {
     private boolean isResumed = false;
     private UiLifecycleHelper uiHelper;
     private Session.StatusCallback callback = new Session.StatusCallback() {
-        @Override
+        
+    	@Override
         public void call(Session session, SessionState state, Exception exception) {
             onSessionStateChange(session, state, exception);
         }

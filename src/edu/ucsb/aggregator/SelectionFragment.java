@@ -4,10 +4,7 @@ package edu.ucsb.aggregator;
 import java.util.Arrays;
 import java.util.List;
 
-import org.json.JSONArray;
-
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
