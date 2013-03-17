@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.facebook.widget.ProfilePictureView;
 
+
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,13 +34,35 @@ public class UpdateAdaptor extends ArrayAdapter<Update> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LinearLayout postView;
 		Update tweet = getItem(position);
-
+		boolean isTwitter;
+		if (tweet instanceof FaceBookPost) {
+			isTwitter = false;
+		}else{
+			isTwitter = true;
+		}
 		// Inflate view
 		LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		postView = (LinearLayout) vi.inflate(resource, null);
 
+		
+		if(tweet == null){
+			Log.i("NULLING", "Tweeet settes aldri");
+			return null;
+		}else{
+			Log.i("NULLING", "Tweeet er satt");
+		}
 		// Find all elements in view
 		Log.i("moster", "logger");
+
+		
+		//ImageView post_picture = (ImageView) postView.findViewById(R.id.post_picture);
+		TextView postTitle;
+		TextView postMessage;
+		//TextView countComment = (TextView) postView.findViewById(R.id.count_comments);
+		TextView updatedTime;
+		
+		if(isTwitter){
+			
 			if(tweet.getProfilePictureUrl() != null){
 				ImageView profile_pic = (ImageView)postView.findViewById(R.id.userImg);
 				Log.i("Kake", "Downloading: " + tweet.getProfilePictureUrl());
@@ -47,15 +71,50 @@ public class UpdateAdaptor extends ArrayAdapter<Update> {
 				new DownloadFile().execute(profile_pic);
 				//	new DownloadImageTask(profile_pic).execute();
 			}
-
-		//ImageView post_picture = (ImageView) postView.findViewById(R.id.post_picture);
-		TextView postTitle = (TextView) postView.findViewById(R.id.userScreen);
-		TextView postMessage = (TextView) postView.findViewById(R.id.updateText);
-		//TextView countComment = (TextView) postView.findViewById(R.id.count_comments);
-		TextView updatedTime = (TextView) postView.findViewById(R.id.updateTime);
+			
+			postTitle = (TextView) postView.findViewById(R.id.userScreen);
+			postMessage = (TextView) postView.findViewById(R.id.updateText);
+			//TextView countComment = (TextView) postView.findViewById(R.id.count_comments);
+			updatedTime = (TextView) postView.findViewById(R.id.updateTime);
+			postTitle.setText(tweet.getTitle());
+			postMessage.setText(tweet.getMessage());
+			//countComment.setText(post.getCountComment() + "");
+			updatedTime.setText(tweet.getUpdatedTime());
+		}else{
+			
+				ProfilePictureView profile_pic = (ProfilePictureView) postView.findViewById(R.id.friend_profile_pic);
+				profile_pic.setCropped(true);
+				profile_pic.setProfileId(tweet.getUserId());
+			
+			if(tweet.getImageUrl() != null){
+				ImageView post_pic = (ImageView)postView.findViewById(R.id.imageView);
+				Log.i("Kake", "Downloading: " + tweet.getProfilePictureUrl());
+				post_pic.setTag(tweet.getImageUrl());
+				//profile_pic.setVisibility(View.VISIBLE);
+				new DownloadFile().execute(post_pic);
+				Log.i("GetPicture","getProfilePictureUrl is NOT null");
+			}else{
+				Log.i("GetPicture","getProfilePictureUrl is null");
+			}
+			//postTitle = (TextView) postView.findViewById(R.id.userScreen);
+			postMessage = (TextView) postView.findViewById(R.id.feed);
+			//TextView countComment = (TextView) postView.findViewById(R.id.count_comments);
+			updatedTime = (TextView) postView.findViewById(R.id.time);
+			
+			postMessage.setText(tweet.getTitle());
+			if(tweet.getMessage()  != null){
+				postMessage.append(tweet.getMessage());
+			}
+			
+			//countComment.setText(post.getCountComment() + "");
+			updatedTime.setText(tweet.getUpdatedTime());
+			TextView likes = (TextView) postView.findViewById(R.id.like);
+			likes.append("Likes: " + tweet.getCountLikes());
+			likes.append("\n");
+			likes.append("Comments: " + tweet.getCountComment());
+			
+		}
 		
-		postTitle.setText(tweet.getTitle());
-
 		if (tweet.getImageUrl() != null){
 			//Log.i(TAG, "Downloading: " + post.getImageUrl());
 			//post_picture.setTag(post.getImageUrl());
@@ -66,9 +125,7 @@ public class UpdateAdaptor extends ArrayAdapter<Update> {
 			//Log.i(TAG, "No image... " + post.getTitle());
 			//post_picture.setVisibility(View.GONE);
 		}
-		postMessage.setText(tweet.getMessage());
-		//countComment.setText(post.getCountComment() + "");
-		updatedTime.setText(tweet.getUpdatedTime());
+		
 
 		return postView;
 	}

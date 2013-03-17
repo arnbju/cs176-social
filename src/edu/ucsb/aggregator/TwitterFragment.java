@@ -122,7 +122,7 @@ public class TwitterFragment extends Activity {
 		btnLogoutTwitter = (Button) findViewById(R.id.btnLogoutTwitter);
 //		tweets = (TextView) findViewById(R.id.lblTweet);
 		tweetlist = (ListView) findViewById(R.id.homeList);
-		updateAdapter = new UpdateAdaptor(this, R.layout.update, updates);
+		updateAdapter = new UpdateAdaptor(this, R.layout.twitter_update, updates);
 		tweetlist.setAdapter(updateAdapter);
 		
 		// Shared Preferences
