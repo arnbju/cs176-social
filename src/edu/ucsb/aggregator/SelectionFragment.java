@@ -264,7 +264,7 @@ public class SelectionFragment extends Fragment {
 	}
 
 	//henter newsfeed fra facebook
-	private void getFeedRequest(final Session session) { // må ta inn from også
+	private void getFeedRequest(final Session session) { // mï¿½ ta inn from ogsï¿½
 		//Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
 		Log.i(TAG, "Kom hit");  
 		Request request = Request.newGraphPathRequest(session, "/me/home", new Request.Callback() {
