@@ -89,7 +89,6 @@ public class SelectionFragment extends Fragment {
 		View view = inflater.inflate(R.layout.selection, container, false);
 
 		profilePicture = (ProfilePictureView) view.findViewById(R.id.friend_profile_pic);
-
 		profilePictureView = (ProfilePictureView) view.findViewById(R.id.selection_profile_pic);
 		profilePictureView.setCropped(true);
 		userNameView = (TextView) view.findViewById(R.id.selection_user_name);
