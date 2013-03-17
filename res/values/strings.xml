@@ -16,7 +16,7 @@
 -->
 
 <resources>
-    <string name="app_name">CS178 Social Media Aggregator</string>
+    <string name="app_name">Facebook &amp; Twitter</string>
     <string name="app_id">419221721497753</string>
     <string name="get_started">To get started, login using Facebook or Twitter</string>
     <string name="announce">Announce</string>
