@@ -60,11 +60,10 @@ public class SelectionFragment extends Fragment {
 	//private TextView fstorry;
 //	private ImageView user_picture;
 
-//	private TextView feedText;
 	private Button refreshButton;
+
 	private Button fbutton;
-//	private TextView likes;
-//	private TextView time;
+	private Button tbutton;
 	private List<Update> updates;
 	private ListView postView;
 	private UpdateAdaptor updateAdapter;
@@ -97,34 +96,33 @@ public class SelectionFragment extends Fragment {
 		View view = inflater.inflate(R.layout.selection, container, false);
 
 		profilePicture = (ProfilePictureView) view.findViewById(R.id.friend_profile_pic);
-
 		profilePictureView = (ProfilePictureView) view.findViewById(R.id.selection_profile_pic);
 		profilePictureView.setCropped(true);
 		userNameView = (TextView) view.findViewById(R.id.selection_user_name);
-//		feedText = (TextView) view.findViewById(R.id.feed);
-		refreshButton = (Button) view.findViewById(R.id.f_refresh);
-//		user_picture = (ImageView) view.findViewById(R.id.imageView);
-//		likes = (TextView) view.findViewById(R.id.like);
-//		time = (TextView) view.findViewById(R.id.time);
+
 		
 		updates = new ArrayList<Update>();
 		postView = (ListView) view.findViewById(R.id.newsFeed);
 		updateAdapter = new UpdateAdaptor(getActivity(), R.layout.facebook_update, updates);
 		postView.setAdapter(updateAdapter);
+
 		
-		refreshButton.setOnClickListener(new View.OnClickListener() {
+		
+		fbutton = (Button) view.findViewById(R.id.fbutton);
+		tbutton =  (Button) view.findViewById(R.id.tbutton);
+		fbutton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				refreshFeed();
 
 			}
 		});
-
-		fbutton = (Button) view.findViewById(R.id.fbutton);
-		fbutton.setOnClickListener(new View.OnClickListener() {
+		
+		tbutton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				refreshFeed();
+				Intent myIntent = new Intent(getActivity() , TwitterFragment.class);
+            	startActivity(myIntent);
 
 			}
 		});
@@ -164,7 +162,7 @@ public class SelectionFragment extends Fragment {
 
 			} else {
 				makeMeRequest(session);
-				//getFeedRequest(session);
+				getFeedRequest(session);
 			}
 		}
 	}
@@ -295,8 +293,7 @@ public class SelectionFragment extends Fragment {
 					// Example: typed access (name)
 					// - no special permissions required
 
-//					feedText.setText("");
-//					likes.setText("");
+
 					try {
 						feedposts = (JSONArray) fpost.getProperty("data");
 						Update temp;

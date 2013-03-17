@@ -27,7 +27,7 @@
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:gravity="left"
-            android:text="Get Tweets"
+            android:text="Refresh Tweets"
             android:visibility="gone" />
 
         <Button

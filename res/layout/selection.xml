@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <LinearLayout
+   <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" >
@@ -18,13 +19,13 @@
             <Button
                 android:id="@+id/fbutton"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:text="Facebook" />
+                android:layout_height="wrap_content"
+                android:text="Refresh" />
 
             <Button
                 android:id="@+id/tbutton"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:text="Twitter" />
         </LinearLayout>
@@ -53,61 +54,14 @@
                 android:textSize="18sp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/f_refresh"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="Refresh" />
-        <!--
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="horizontal" >
 
-            <com.facebook.widget.ProfilePictureView
-                android:id="@+id/friend_profile_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:gravity="center_horizontal"
-                facebook:preset_size="small" >
-            </com.facebook.widget.ProfilePictureView>
-
-            <TextView
-                android:id="@+id/feed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="tomt"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
-        <TextView
-            android:id="@+id/like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        -->
 
         <ListView
             android:id="@+id/newsFeed"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
- \
     </LinearLayout>
 
+
 </LinearLayout>
+
