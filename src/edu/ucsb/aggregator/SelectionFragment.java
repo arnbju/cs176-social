@@ -58,7 +58,6 @@ public class SelectionFragment extends Fragment {
 	private ImageView user_picture;
 
 	private TextView feedText;
-	private Button refreshButton;
 	private Button fbutton;
 	private TextView likes;
 	private TextView time;
@@ -95,19 +94,11 @@ public class SelectionFragment extends Fragment {
 		profilePictureView.setCropped(true);
 		userNameView = (TextView) view.findViewById(R.id.selection_user_name);
 		feedText = (TextView) view.findViewById(R.id.feed);
-		refreshButton = (Button) view.findViewById(R.id.f_refresh);
 		user_picture = (ImageView) view.findViewById(R.id.imageView);
 		likes = (TextView) view.findViewById(R.id.like);
 		time = (TextView) view.findViewById(R.id.time);
 		
-		refreshButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				refreshFeed();
-
-			}
-		});
-
+		
 		fbutton = (Button) view.findViewById(R.id.fbutton);
 		fbutton.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -284,6 +275,7 @@ public class SelectionFragment extends Fragment {
 
 					feedText.setText("");
 					likes.setText("");
+					time.setText("");
 
 					JSONArray posts = (JSONArray) fpost.getProperty("data");
 

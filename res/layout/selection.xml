@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <LinearLayout
+   <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" >
@@ -18,13 +20,13 @@
             <Button
                 android:id="@+id/fbutton"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:text="Facebook" />
+                android:layout_height="wrap_content"
+                android:text="Refresh" />
 
             <Button
                 android:id="@+id/tbutton"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:text="Twitter" />
         </LinearLayout>
@@ -53,12 +55,7 @@
                 android:textSize="18sp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/f_refresh"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center_vertical"
-            android:text="Refresh" />
+
 
         <LinearLayout
             android:layout_width="fill_parent"
