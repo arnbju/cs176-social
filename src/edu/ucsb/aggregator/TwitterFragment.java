@@ -1,6 +1,12 @@
 package edu.ucsb.aggregator;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.facebook.Response;
+
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -16,6 +22,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -26,6 +34,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +46,7 @@ public class TwitterFragment extends Activity {
 	 * */
 	static String TWITTER_CONSUMER_KEY = "n73xFF1NwQ50rIDp5P07Aw"; // place your cosumer key here
 	static String TWITTER_CONSUMER_SECRET = "5diHSU9Oz36SnVeuZXbJY3n2gKH1Hs1INCNmUziiv8"; // place your consumer secret here
-
+	
 	// Preference Constants
 	static String PREFERENCE_NAME = "twitter_oauth";
 	static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
@@ -50,15 +59,19 @@ public class TwitterFragment extends Activity {
 	static final String URL_TWITTER_AUTH = "auth_url";
 	static final String URL_TWITTER_OAUTH_VERIFIER = "oauth_verifier";
 	static final String URL_TWITTER_OAUTH_TOKEN = "oauth_token";
-
+	
+	private UpdateAdaptor updateAdapter;
+	
 	// Login button
 	Button btnLoginTwitter;
 	// Update status button
 	Button btnUpdateStatus;
 	// Logout button
 	Button btnLogoutTwitter;
-	TextView tweets;
-
+//	TextView tweets;
+	ListView tweetlist;
+	private List<Update> updates;
+	
 	// Progress dialog
 	ProgressDialog pDialog;
 
@@ -84,7 +97,7 @@ public class TwitterFragment extends Activity {
 			StrictMode.setThreadPolicy(policy);
 		}
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+		updates = new ArrayList<Update>();
 		cd = new ConnectionDetector(getApplicationContext());
 
 		// Check if Internet present
@@ -107,7 +120,10 @@ public class TwitterFragment extends Activity {
 		btnLoginTwitter = (Button) findViewById(R.id.btnLoginTwitter);
 		btnUpdateStatus = (Button) findViewById(R.id.btnUpdateStatus);
 		btnLogoutTwitter = (Button) findViewById(R.id.btnLogoutTwitter);
-		tweets = (TextView) findViewById(R.id.lblTweet);
+//		tweets = (TextView) findViewById(R.id.lblTweet);
+		tweetlist = (ListView) findViewById(R.id.homeList);
+		updateAdapter = new UpdateAdaptor(this, R.layout.update, updates);
+		tweetlist.setAdapter(updateAdapter);
 		
 		// Shared Preferences
 		mSharedPreferences = getApplicationContext().getSharedPreferences(
@@ -187,7 +203,7 @@ public class TwitterFragment extends Activity {
 					// Show Update Twitter
 					btnUpdateStatus.setVisibility(View.VISIBLE);
 					btnLogoutTwitter.setVisibility(View.VISIBLE);
-					tweets.setVisibility(View.VISIBLE);
+//					tweets.setVisibility(View.VISIBLE);
 					
 					// Getting user details from twitter
 					// For now i am getting his name only
@@ -251,17 +267,17 @@ public class TwitterFragment extends Activity {
 			// Show Update Twitter
 			btnUpdateStatus.setVisibility(View.VISIBLE);
 			btnLogoutTwitter.setVisibility(View.VISIBLE);
-			tweets.setVisibility(View.VISIBLE);
+//			tweets.setVisibility(View.VISIBLE);
 			
 		}
 	}
 
-	class getTwitterFeed extends AsyncTask<String, String, String>{
+	class getTwitterFeed extends AsyncTask<String, String, ArrayList<Update>>{
 		twitter4j.Status minStat;
 		List<twitter4j.Status> homeTimeLisne;
 		
 		@Override
-		protected String doInBackground(String... args) {
+		protected ArrayList<Update> doInBackground(String... args) {
 			try {
 				ConfigurationBuilder builder = new ConfigurationBuilder();
 				builder.setOAuthConsumerKey(TWITTER_CONSUMER_KEY);
@@ -275,29 +291,28 @@ public class TwitterFragment extends Activity {
 				AccessToken accessToken = new AccessToken(access_token, access_token_secret);
 				Twitter twitter = new TwitterFactory(builder.build()).getInstance(accessToken);
 
-				// Update status
+				// Update statusget
 				homeTimeLisne = twitter.getHomeTimeline();
 				
+				for(twitter4j.Status status : homeTimeLisne){
+					updates.add(new TwitterPost(status));
+				}
 			} catch (TwitterException e) {
 				// Error in updating status
 				Log.d("Twitter getHomeTimeline Error", e.getMessage());
 			}
 			return null;
 		}
+		
 		@Override
-		protected void onPostExecute(String file_url) {
+		protected void onPostExecute(ArrayList<Update> result) {
+			super.onPostExecute(result);
 			// updating UI from Background Thread
 			runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					minStat = homeTimeLisne.get(0);
-					
-					tweets.setText(minStat.getUser().getScreenName());
-					
-					tweets.append("\n" + minStat.getCreatedAt());
-					tweets.append("\n" + minStat.getText());
-					tweets.append("\n " + minStat.getRetweetCount() + " Retweets");
-					tweets.append("\n" + minStat.getUser().getProfileImageUrlHttps());
+					tweetlist.setVisibility(View.VISIBLE);
+					updateAdapter.notifyDataSetChanged();
 				}
 			});
 		}	
@@ -394,6 +409,8 @@ public class TwitterFragment extends Activity {
 		btnLogoutTwitter.setVisibility(View.GONE);
 		btnUpdateStatus.setVisibility(View.GONE);
 		btnLoginTwitter.setVisibility(View.VISIBLE);
+		tweetlist.setVisibility(View.GONE);
+		
 	}
 
 	/**
@@ -413,8 +430,11 @@ public class TwitterFragment extends Activity {
 
 			btnUpdateStatus.setVisibility(View.VISIBLE);
 			btnLogoutTwitter.setVisibility(View.VISIBLE);
-			tweets.setVisibility(View.VISIBLE);
+			new getTwitterFeed().execute();
+			//tweets.setVisibility(View.VISIBLE);
 		}
 	}
+	
+	
 
 }
